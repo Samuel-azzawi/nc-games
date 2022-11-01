@@ -12,7 +12,6 @@ const Reviews = () => {
   };
   useEffect(() => {
     ApiRequests.getReviews().then((res) => {
-      setIsLoading(true);
       setReviewData(res.data.review);
       setIsLoading(false);
     });
@@ -32,11 +31,11 @@ const Reviews = () => {
         {reviewData.map((review) => {
           return (
             <div className="item" key={review.review_id}>
-              <img
-                className="review_img"
-                src={review.review_img_url}
-                alt="review img"
-              />
+                  <img
+                    className="review_img"
+                    src={review.review_img_url}
+                    alt="review img"
+                  />
               <div className="text">
                 <p>
                   <strong>Category:</strong> {review.category}
