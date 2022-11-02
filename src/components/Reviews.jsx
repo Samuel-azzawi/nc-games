@@ -6,7 +6,6 @@ import Categories from "./Categories";
 const Reviews = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-  console.log(searchParams.get("category")); // 'name'
 
   const navigate = useNavigate();
   const [reviewData, setReviewData] = useState(null);
@@ -31,47 +30,51 @@ const Reviews = () => {
           HomePage();
         }}
       >
-        back to home
+        Home
       </button>
       <>
         <Categories />
-        {category ? <h2>games in category: {category}</h2> : <></>}
+        <button
+          onClick={() => {
+            navigate("/reviews");
+          }}
+        >
+          reset options
+        </button>
       </>
-        <div className="container">
-          {reviewData.map((review) => {
-            return (
-              <>
-                <div
-                  className="item"
-                  key={review.review_id}
-                  onClick={() => {
-                    navigate(`/reviews/${review.review_id}`);
-                  }}
-                >
-                  <img
-                    className="review_img"
-                    src={review.review_img_url}
-                    alt="review img"
-                  />
-                  <div className="words">
-                    <p>
-                      <strong>Category:</strong> {review.category}
-                    </p>
-                    <p>
-                      <strong>Title:</strong> {review.title}
-                    </p>
-                    <p>
-                      <strong>Designer:</strong> {review.designer}
-                    </p>
-                    <p>
-                      <strong>Owner:</strong> {review.owner}
-                    </p>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </div>
+      <div className="container">
+        {reviewData.map((review) => {
+          return (
+            <div
+              className="item"
+              key={review.review_id}
+              onClick={() => {
+                navigate(`/reviews/${review.review_id}`);
+              }}
+            >
+              <img
+                className="review_img"
+                src={review.review_img_url}
+                alt="review img"
+              />
+              <div className="words">
+                <p>
+                  <strong>Category:</strong> {review.category}
+                </p>
+                <p>
+                  <strong>Title:</strong> {review.title}
+                </p>
+                <p>
+                  <strong>Designer:</strong> {review.designer}
+                </p>
+                <p>
+                  <strong>Owner:</strong> {review.owner}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };
