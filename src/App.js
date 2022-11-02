@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UserContext } from "./UserContext/UserContext";
 import HomePage from "./components/HomePage";
 import Reviews from "./components/Reviews";
+import ReviewDetails from "./components/ReviewDetails";
 function App() {
   const [user, setUser] = useState("");
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <nav>
           <Link to="/reviews"></Link>
+          <Link to="/reviews/:id"></Link>
         </nav>
         <Routes>
           <Route
@@ -18,6 +20,14 @@ function App() {
             element={
               <div>
                 <HomePage />
+              </div>
+            }
+          />
+          <Route
+            path="/reviews/:id"
+            element={
+              <div>
+                <ReviewDetails />
               </div>
             }
           />

@@ -6,16 +6,13 @@ import Categories from "./Categories";
 const HomePage = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const reviews = () => {
-    navigate("/reviews");
-  };
 
   return (
     <div>
       <h1>LARGEST GAMES REVIEW SITE!</h1>
       <button
         onClick={() => {
-          reviews();
+           navigate("/reviews");
         }}
       >
         View all reviews

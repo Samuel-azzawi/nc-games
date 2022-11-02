@@ -26,7 +26,7 @@ const Categories = () => {
     });
     setSelectedOption(e);
     navigate(`${baseUrl}${e.label}`);
-    window.location.reload(false);
+
   };
 
   if (isLoading) {
