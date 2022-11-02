@@ -45,7 +45,6 @@ const Categories = () => {
   }
   return (
     <>
-      {console.log(categoryUrl)}
       <Select
         className="dropbtn"
         defaultValue={selectedOption}

@@ -11,13 +11,11 @@ const ReviewDetails = () => {
   let { id } = useParams();
   useEffect(() => {
     ApiRequests.getReviews(null, id).then((res) => {
-      console.log(res);
       setReview(res.data);
       setIsLoad(false);
     });
     ApiRequests.getComments(id).then((res) => {
       setComments(res.data.comment);
-      console.log(res.data);
       setIsLoading(false);
     });
   }, []);
@@ -79,8 +77,8 @@ const ReviewDetails = () => {
           ) : (
             comments.map((comment) => {
               return (
-                <div className="item">
-                  <ul key={comment.comment_id}>
+                <div key={comment.comment_id} className="item">
+                  <ul>
                     <li>
                       <strong>author: </strong> {comment.author}
                     </li>
