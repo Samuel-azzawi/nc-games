@@ -2,6 +2,11 @@ body {
   background-image: url(./bluemoon.png);
   background-attachment: fixed;
 }
+.avatar{
+  width: 70px;
+  border-radius: 50%;
+  height: 70px;
+}
 .review_img {
   width: 50%;
   border-radius: 50px;
