@@ -1,5 +1,5 @@
-import {useContext, useEffect, useState } from "react";
-import {useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ApiRequests from "./ApiRequests";
 import { UserContext } from "../UserContext/UserContext";
 const ReviewDetails = () => {
@@ -7,18 +7,26 @@ const ReviewDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoad, setIsLoad] = useState(true);
   const [comments, setComments] = useState(null);
-  const [information, setInformation] = useState(false);
-  const[reviewVotes, setReviewVotes] = useState(null);
+  const [votes, setVotes] = useState(false);
+  const [reviewVotes, setReviewVotes] = useState(0);
+  const [information,setInformation] = useState(false)
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   let { id } = useParams();
-  const addVotes = () => {
-    if (reviewVotes > review.votes) {
-        return setInformation(true)
-      }
-      return setReviewVotes(review.votes+1)
-    };
   
+  const addVotes = (vote) => {
+            setVotes(!votes);
+      return setReviewVotes(() => {
+        return vote;
+      });
+  };
+  useEffect(() => {
+    ApiRequests.patchReviweVotes(id, reviewVotes).then((res) => {
+      console.log(res)
+      setReviewVotes(0);
+    });
+  }, [reviewVotes, id]);
+
   useEffect(() => {
     ApiRequests.getReviews(null, id).then((res) => {
       setReview(res.data);
@@ -28,7 +36,7 @@ const ReviewDetails = () => {
       setComments(res.data.comment);
       setIsLoading(false);
     });
-  }, []);
+  }, [id]);
   if (isLoading || isLoad) return <>loading...</>;
   return (
     <>
@@ -86,25 +94,33 @@ const ReviewDetails = () => {
             <strong>review: </strong> {review.review_body}
           </p>
 
-          {!reviewVotes ? (
-            <p>
-              <strong>votes: </strong> {review.votes}
-            </p>
+          <p>
+            <strong>votes: </strong> {review.votes}
+          </p>
+
+          {votes ? (
+            <button
+              onClick={() => {
+                review.votes -= 1;
+                addVotes(-1);
+              }}
+            >
+              vote down
+            </button>
           ) : (
-            <p>
-              <strong>votes: </strong> {reviewVotes}
-            </p>
+            <button
+                onClick={() => {
+                  if (!user) {
+                    return setInformation(true);
+                  }
+                 review.votes += 1;
+                addVotes(1);
+              }}
+            >
+              vote up
+            </button>
           )}
-          {information? <div>you can only vote once!</div>:<></>}
-
-          <button
-            onClick={() => {
-              addVotes();
-            }}
-          >
-            vote up
-          </button>
-
+          {information?<>sign in to vote!</>:<></>}
           <div className="line"></div>
           <h2>comments: </h2>
           {!comments ? (

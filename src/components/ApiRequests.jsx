@@ -6,9 +6,9 @@ const ApiRequests = {
       return axios.get(`${baseUrl}/api/reviews/${id}`);
     }
     if (category) {
-      return axios.get(`${baseUrl}/api/reviews?category=${category}`)
+      return axios.get(`${baseUrl}/api/reviews?category=${category}`);
     }
-     return axios.get(`${baseUrl}/api/reviews`);
+    return axios.get(`${baseUrl}/api/reviews`);
   },
   getCategories() {
     return axios.get(`${baseUrl}/api/categories`);
@@ -18,7 +18,10 @@ const ApiRequests = {
   },
   getUsers() {
     return axios.get(`${baseUrl}/api/users/`);
-  }
+  },
+  patchReviweVotes(id, vote) {
+    return axios.patch(`${baseUrl}/api/reviews/${id}`, {inc_votes : vote});
+  },
 };
 
 export default ApiRequests;
