@@ -42,6 +42,17 @@ const Reviews = () => {
           reset options
         </button>
       </>
+      <br/>
+        {user ? (
+          <>
+            <div>
+              <img className="avatar" src={user.avatar_url} alt="avatar" />
+            </div>
+            <>{user.name}</>
+          </>
+        ) : (
+          <></>
+        )}
       <div className="container">
         {reviewData.map((review) => {
           return (

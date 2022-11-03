@@ -15,6 +15,9 @@ const ApiRequests = {
   },
   getComments(id) {
     return axios.get(`${baseUrl}/api/reviews/${id}/comments`);
+  },
+  getUsers() {
+    return axios.get(`${baseUrl}/api/users/`);
   }
 };
 

@@ -8,7 +8,7 @@ import ReviewDetails from "./components/ReviewDetails";
 function App() {
   const [user, setUser] = useState("");
   return (
-    <UserContext.Provider value={[{ user, setUser }]}>
+    <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <nav>
           <Link to="/reviews"></Link>
