@@ -19,9 +19,11 @@ const ApiRequests = {
   getUsers() {
     return axios.get(`${baseUrl}/api/users/`);
   },
-  patchReviweVotes(id, vote) {
-    return axios.patch(`${baseUrl}/api/reviews/${id}`, {inc_votes : vote});
+  patchReviweVotes(id, inc_votes) {
+    return axios.patch(`${baseUrl}/api/reviews/${id}`, { inc_votes });
   },
-};
-
+  PostComments(id, username, body) {
+    return axios.post(`${baseUrl}/api/reviews/${id}/comments`, { username, body })
+  },
+}
 export default ApiRequests;
