@@ -2,11 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ApiRequests from "./ApiRequests";
 import { UserContext } from "../UserContext/UserContext";
+import Comments from "./Comments";
 const ReviewDetails = () => {
   const [review, setReview] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoad, setIsLoad] = useState(true);
-  const [comments, setComments] = useState(null);
   const [votes, setVotes] = useState(false);
   const [reviewVotes, setReviewVotes] = useState(0);
   const [information,setInformation] = useState(false)
@@ -30,14 +29,11 @@ const ReviewDetails = () => {
   useEffect(() => {
     ApiRequests.getReviews(null, id).then((res) => {
       setReview(res.data);
-      setIsLoad(false);
-    });
-    ApiRequests.getComments(id).then((res) => {
-      setComments(res.data.comment);
       setIsLoading(false);
     });
+    
   }, [id]);
-  if (isLoading || isLoad) return <>loading...</>;
+  if (isLoading) return <>loading...</>;
   return (
     <>
       <button
@@ -122,31 +118,7 @@ const ReviewDetails = () => {
           )}
           {information?<>sign in to vote!</>:<></>}
           <div className="line"></div>
-          <h2>comments: </h2>
-          {!comments ? (
-            <></>
-          ) : (
-            comments.map((comment) => {
-              return (
-                <div key={comment.comment_id} className="item">
-                  <ul>
-                    <li>
-                      <strong>author: </strong> {comment.author}
-                    </li>
-                    <li>
-                      <strong>votes: </strong>
-                      {comment.votes}
-                    </li>
-                    <li>
-                      <strong>created at: </strong> {comment.created_at}
-                    </li>
-                    <br />
-                    <li>{comment.body}</li>
-                  </ul>
-                </div>
-              );
-            })
-          )}
+          <Comments id = {id}/>
         </div>
       </div>
     </>
