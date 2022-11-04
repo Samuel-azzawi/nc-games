@@ -23,17 +23,20 @@ const Reviews = () => {
   if (isLoading) return <>loading...</>;
 
   return (
-    <>
-      <button
-        id="homePage"
-        onClick={() => {
-          HomePage();
-        }}
-      >
-        Home
-      </button>
-      <>
+    <div className="reviews-container">
+      <div className="home-btn">
+        <button
+          class="fa fa-home"
+          id="homePage"
+          onClick={() => {
+            HomePage();
+          }}
+        />
+      </div>
+      <div className="reviews-categories-nav">
         <Categories />
+      </div>
+      <div className="reset-review-btn">
         <button
           onClick={() => {
             navigate("/reviews");
@@ -41,19 +44,15 @@ const Reviews = () => {
         >
           reset options
         </button>
-      </>
-      <br/>
+      </div>
         {user ? (
-          <>
-            <div>
+          <div className="user_reviews">
               <img className="avatar" src={user.avatar_url} alt="avatar" />
-            </div>
-            <>{user.name}</>
-          </>
+          </div>
         ) : (
           <></>
         )}
-      <div className="container">
+      <div className="review-card">
         {reviewData.map((review) => {
           return (
             <div
@@ -86,7 +85,7 @@ const Reviews = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 export default Reviews;
