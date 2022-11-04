@@ -37,6 +37,7 @@ const ReviewDetails = () => {
   return (
     <>
       <button
+        id="homePage"
         onClick={() => {
           navigate("/reviews");
         }}
@@ -44,12 +45,12 @@ const ReviewDetails = () => {
         View all reviews
       </button>
       <button
+        class="fa fa-home home-btn"
+        id="homePage"
         onClick={() => {
           navigate("/");
         }}
-      >
-        Home
-      </button>
+      />
       <br />
       {user ? (
         <>
@@ -105,20 +106,20 @@ const ReviewDetails = () => {
             </button>
           ) : (
             <button
-                onClick={() => {
-                  if (!user) {
-                    return setInformation(true);
-                  }
-                 review.votes += 1;
+              onClick={() => {
+                if (!user) {
+                  return setInformation(true);
+                }
+                review.votes += 1;
                 addVotes(1);
               }}
             >
               vote up
             </button>
           )}
-          {information?<>sign in to vote!</>:<></>}
+          {information ? <>sign in to vote!</> : <></>}
           <div className="line"></div>
-          <Comments id = {id}/>
+          <Comments id={id} />
         </div>
       </div>
     </>

@@ -5,17 +5,25 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>LARGEST GAMES REVIEW WEBSITE!</h1>
-      <button
-        onClick={() => {
-          navigate("/reviews");
-        }}
-      >
-        View all reviews
-      </button>
-      <Categories />
-      <UserLogIn />
+    <div className="container">
+      <div className="header">
+        <h1>LARGEST GAMES REVIEW WEBSITE!</h1>
+      </div>
+      <div className="userLogin">
+        <UserLogIn />
+      </div>
+      <div className="button-reviews">
+        <button
+          onClick={() => {
+            navigate("/reviews");
+          }}
+        >
+          View all reviews
+        </button>
+      </div>
+      <div className="categories-nav">
+        <Categories />
+      </div>
     </div>
   );
 };

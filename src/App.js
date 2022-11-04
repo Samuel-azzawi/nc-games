@@ -14,32 +14,33 @@ function App() {
           <Link to="/reviews"></Link>
           <Link to="/reviews/:id"></Link>
         </nav>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                <HomePage />
-              </div>
-            }
-          />
-          <Route
-            path="/reviews/:id"
-            element={
-              <div>
-                <ReviewDetails />
-              </div>
-            }
-          />
-          <Route
-            path="/reviews"
-            element={
-              <div>
-                <Reviews />
-              </div>
-            }
-          />
-        </Routes>
+        
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <HomePage />
+                </div>
+              }
+            />
+            <Route
+              path="/reviews/:id"
+              element={
+                <div>
+                  <ReviewDetails />
+                </div>
+              }
+            />
+            <Route
+              path="/reviews"
+              element={
+                <div>
+                  <Reviews />
+                </div>
+              }
+            />
+          </Routes>
       </BrowserRouter>
     </UserContext.Provider>
   );

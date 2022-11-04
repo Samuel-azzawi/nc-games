@@ -35,7 +35,7 @@ const UserLogIn = () => {
   };
   if (isLoading) return <>loading...</>;
   return (
-    <>
+    <div >
       {!user ? (
         <>
           <input
@@ -58,8 +58,7 @@ const UserLogIn = () => {
         <>
           <button onClick={logOut}>log out</button>
           <div>
-            <br />
-            <div>
+            <div className="user_homepage">
               <img className="avatar" src={user.avatar_url} alt="avatar" />
             </div>
             <>Welcome back {user.name}!</>
@@ -67,7 +66,7 @@ const UserLogIn = () => {
         </>
       )}
       <h4>{information}</h4>
-    </>
+    </div>
   );
 };
 

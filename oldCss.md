@@ -6,6 +6,11 @@ body {
   display: grid;
   grid-template-columns: auto 320px auto;
 }
+.reviews-container {
+  display: grid;
+  grid-template-columns: 1fr 320px 1fr;
+}
+
 
 .header {
   grid-column: 2;
@@ -21,20 +26,15 @@ body {
   margin-top: 80px;
   justify-self: left;
 }
-/* reviews_page */
-.reviews-container {
-  display: flex;
-}
 .reviews-categories-nav {
-  position: absolute;;
-  justify-self: center;
-  top: 10%;
-  left: 40%;
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: right;
 }
 .home-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: left;
 }
 .userLogin {
   grid-column: 3;
@@ -42,48 +42,26 @@ body {
   justify-self: right;
 }
 .reset-review-btn {
-  position: absolute;
-  top: 90px;
-  right: 20px;
+  grid-column: 3;
+  justify-self: right;
 }
 .review-card {
-  margin-top: 130px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-
-.review-card::after {
-  content: "";
-  width: 320px;
+  grid-column:1/ span 3;
+  grid-row: 3;
+  
 }
 
 .item {
   font-style: oblique;
   font-size: larger;
-  width: 320px;
-  height: 400px;
+  width: 40%;
   background-color: rgba(130, 253, 237, 0.733);
   padding: 5px;
   border: 2px solid rgb(193, 195, 191);
   border-radius: 20px;
   transition: all 0.8s ease-in-out;
-}
-.review_img {
-  width: 100%;
-  border-radius: 20px;
-  height: 50%;
-  object-fit: cover;
-}
-.user_reviews {
-  position: absolute;
-  top: 20px;
-  left: 80px;
-}
 
+}
 .review-card :hover {
   background-color: #0051ff62;
   cursor: pointer;
@@ -96,11 +74,15 @@ body {
 }
 
 .avatar {
-  width: 45px;
+  width: 70px;
   border-radius: 50%;
-  height: 45px;
+  height: 70px;
 }
-
+.review_img {
+  width: 50%;
+  border-radius: 50px;
+  height: 100%;
+}
 li {
   list-style-type: none;
 }
@@ -108,6 +90,11 @@ li {
   height: 1px;
   width: 100%;
   background-color: rgb(55, 57, 59);
+}
+
+.words {
+  border-radius: 50px;
+  max-width: 50%;
 }
 
 .dropbtn {
