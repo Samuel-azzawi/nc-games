@@ -15,8 +15,7 @@ const Comments = ({ id }) => {
     }
     setFakeComment(inputValue);
     setSendComment(true);
-    ApiRequests.PostComments(id, user.username, inputValue).then((res) => {
-      console.log(res);
+    ApiRequests.PostComments(id, user.username, inputValue).then(() => {
       setInputValue("");
     });
   };
@@ -39,7 +38,6 @@ const Comments = ({ id }) => {
         rows="5"
         cols="50"
       ></textarea>
-      {console.log(user)}
       <button onClick={handleComment}>submit</button>
       {information ? <>sign in to write a comment!</> : <></>}
       {sendComment ? (

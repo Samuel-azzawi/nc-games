@@ -25,5 +25,15 @@ const ApiRequests = {
   PostComments(id, username, body) {
     return axios.post(`${baseUrl}/api/reviews/${id}/comments`, { username, body })
   },
+  getFilteredReviews(sort_by, order) {
+    if (order) {
+      return axios.get(
+        `${baseUrl}/api/reviews?sort_by=${sort_by}&&order=${order}`
+      );
+    }
+    return axios.get(
+      `${baseUrl}/api/reviews?sort_by=${sort_by}`
+    );
+  }
 }
 export default ApiRequests;

@@ -16,14 +16,11 @@ const UserLogIn = () => {
 
   const logIn = () => {
     let found = false;
-    let count = 0;
     allUsers.map((data, index) => {
       if (data.username === inputValue) {
-        console.log(count);
         found = true;
         return setUser(data);
       } else if (allUsers.length - 1 === index && !found) {
-        console.log("not found");
         found = true;
         return setInformation("user not found");
       }

@@ -29,7 +29,6 @@ const Categories = () => {
 
   };
 
-  if (isLoading) {
     return (
       <>
         <Select
@@ -39,22 +38,9 @@ const Categories = () => {
           options={categoryData}
           getOptionValue={(selectedOption) => selectedOption.label}
         />
-        <h3>loading...</h3>
+        {isLoading ? <h3>loading...</h3> : <Link to={categoryUrl}></Link>}
       </>
     );
-  }
-  return (
-    <>
-      <Select
-        className="dropbtn"
-        defaultValue={selectedOption}
-        onChange={onChange}
-        options={categoryData}
-        getOptionValue={(selectedOption) => selectedOption.label}
-      />
-      <Link to={categoryUrl}></Link>
-    </>
-  );
 };
 
 export default Categories;

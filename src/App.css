@@ -22,6 +22,11 @@ body {
   justify-self: left;
 }
 /* reviews_page */
+.sort-by-drop-down{
+  position: absolute;;
+  bottom: 15%;
+ right: 120%;
+}
 .reviews-container {
   display: flex;
 }

@@ -20,8 +20,7 @@ const ReviewDetails = () => {
       });
   };
   useEffect(() => {
-    ApiRequests.patchReviweVotes(id, reviewVotes).then((res) => {
-      console.log(res)
+    ApiRequests.patchReviweVotes(id, reviewVotes).then(() => {
       setReviewVotes(0);
     });
   }, [reviewVotes, id]);
@@ -35,23 +34,26 @@ const ReviewDetails = () => {
   }, [id]);
   if (isLoading) return <>loading...</>;
   return (
-    <>
-      <button
-        id="homePage"
-        onClick={() => {
-          navigate("/reviews");
-        }}
-      >
-        View all reviews
-      </button>
-      <button
-        class="fa fa-home home-btn"
-        id="homePage"
-        onClick={() => {
-          navigate("/");
-        }}
-      />
-      <br />
+    <div>
+      <div className="reset-review-btn">
+        <button
+          id="homePage"
+          onClick={() => {
+            navigate("/reviews");
+          }}
+        >
+          View all reviews
+        </button>
+      </div>
+      <div className="home-btn">
+        <button
+          className="fa fa-home home-btn"
+          id="homePage"
+          onClick={() => {
+            navigate("/");
+          }}
+        />
+      </div>
       {user ? (
         <>
           <div>
@@ -122,7 +124,7 @@ const ReviewDetails = () => {
           <Comments id={id} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default ReviewDetails;
