@@ -14,7 +14,6 @@ const ReviewsFiltered = ({ sort_by, order}) => {
       sort_by = "created_at";
     }
     ApiRequests.getFilteredReviews(sort_by,order).then((res) => {
-      console.log(res);
       setReviewData(res.data.review);
       setIsLoading(false);
     });

@@ -1,14 +1,17 @@
 import axios from "axios";
 const baseUrl = `https://zombie-chan.herokuapp.com`;
 const ApiRequests = {
-  getReviews(category, id) {
+  getReviews(category, id, sort_by, order) {
+    let cat = ""
+    let sort = ""
+    let ord = ""
+    if (category) cat = `category=${category}`
+    if (sort_by) sort = `sort_by=${sort_by}`
+    if (order) ord = `order=${order}`
     if (id) {
       return axios.get(`${baseUrl}/api/reviews/${id}`);
     }
-    if (category) {
-      return axios.get(`${baseUrl}/api/reviews?category=${category}`);
-    }
-    return axios.get(`${baseUrl}/api/reviews`);
+      return axios.get(`${baseUrl}/api/reviews?&&${cat}&&${sort}&&${ord}`);
   },
   getCategories() {
     return axios.get(`${baseUrl}/api/categories`);
@@ -28,7 +31,7 @@ const ApiRequests = {
   getFilteredReviews(sort_by, order) {
     if (order) {
       return axios.get(
-        `${baseUrl}/api/reviews?sort_by=${sort_by}&&order=${order}`
+        `${baseUrl}/api/reviews?&&sort_by=${sort_by}&&order=${order}`
       );
     }
     return axios.get(

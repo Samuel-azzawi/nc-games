@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Categories from "./Categories";
 import UserLogIn from "./UserLogIn";
 const HomePage = () => {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ const HomePage = () => {
         </button>
       </div>
       <div className="categories-nav">
-        <Categories />
       </div>
     </div>
   );

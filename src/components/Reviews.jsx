@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext/UserContext";
 import ApiRequests from "./ApiRequests";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import Categories from "./Categories";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Select from "react-select";
-import ReviewsFiltered from "./ReviewsFiltered";
+
 const Reviews = () => {
   const sortData = [
     { label: "votes" },
@@ -14,55 +13,96 @@ const Reviews = () => {
     { label: "category" },
     { label: "title" },
   ];
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-  const sort_by = searchParams.get("sort_by")
-  const order_by = searchParams.get("order")
-const [selectedOption, setSelectedOption] = useState("");
-  const navigate = useNavigate();
+  let sort_by = searchParams.get("sort_by");
+  const order_by = searchParams.get("order");
+  const [categoryValue, setCategoryValue] = useState("");
+  const [sortByValue, setSortByValue] = useState("");
   const [reviewData, setReviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoad, setIsLoad] = useState(true);
+  const [categoryData, setCategoryData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [categoryUrl, setCategoryUrl] = useState("");
   const { user } = useContext(UserContext);
-  const [sortUrl, setSortUrl] = useState("");
-  const [orderUrl, setOrderUrl] = useState(null)
-  const[asc, setAsc] = useState(false)
+  const [asc, setAsc] = useState(false);
+  const baseUrl = "/reviews?";
   const HomePage = () => {
     navigate("/");
   };
   const onChange = (e) => {
-    const baseUrl = "/reviews?sort_by=";
-    setSortUrl(() => {
+    setSortByValue(e);
+    if (category) {
+      const baseUrl = "/reviews?";
+      navigate(
+        `${baseUrl}category=${category}&&sort_by=${e.label}&&order=desc`
+      );
+    } else {
+      const baseUrl = "/reviews?sort_by=";
+      navigate(`${baseUrl}${e.label}&&order=desc`);
+    }
+  };
+  const order = () => {
+    if (category) {
+      if (asc) {
+        setAsc(false);
+        if (!sort_by) sort_by = "category";
+        navigate(
+          `${baseUrl}category=${category}&&sort_by=${sort_by}&&order=desc`
+        );
+      } else {
+        if (!sort_by) sort_by = "category";
+        setAsc(true);
+        navigate(
+          `${baseUrl}category=${category}&&sort_by=${sort_by}&&order=asc`
+        );
+      }
+    } else {
+      if (asc) {
+        setAsc(false);
+        if (!sort_by) sort_by = "category";
+        navigate(`${baseUrl}sort_by=${sort_by}&&order=desc`);
+      } else {
+        if (!sort_by) sort_by = "category";
+        setAsc(true);
+        navigate(`${baseUrl}sort_by=${sort_by}&&order=asc`);
+      }
+    }
+  };
+  useEffect(() => {
+    setIsLoading(true);
+    if (sort_by === "time created") {
+      sort_by = "created_at";
+    }
+    ApiRequests.getReviews(category, null, sort_by, order_by).then((res) => {
+      setReviewData(res.data.review);
+      setIsLoading(false);
+    });
+  }, [category, sort_by, order_by]);
+  useEffect(() => {
+    setIsLoad(true);
+    ApiRequests.getCategories().then((res) => {
+      setCategoryData(() => {
+        setIsLoad(false);
+        return res.data.map((cat) => {
+          return { label: cat.slug };
+        });
+      });
+    });
+  }, []);
+  const onChangeCat = (e) => {
+    setCategoryValue(e);
+    const baseUrl = "/reviews?category=";
+    setCategoryUrl(() => {
       return `${baseUrl}${e.label}`;
     });
     setSelectedOption(e);
     navigate(`${baseUrl}${e.label}`);
   };
-  const order = () => {
-    console.log(sortUrl)
-    console.log(orderUrl)
-    if (asc) {
-      setAsc(false);
-      setOrderUrl(() => {
-        return `${sortUrl}&&order=asc`;
-      });
-      navigate(`${sortUrl}&&order=asc`);
-    }
-    else {
-      setAsc(true);
-      setOrderUrl(() => {
-        return `${sortUrl}&&order=desc`;
-      });
-      navigate(`${sortUrl}&&order=desc`);
-    }
-  }
-  useEffect(() => {
-    ApiRequests.getReviews(category).then((res) => {
-      setReviewData(res.data.review);
-      setIsLoading(false);
-      console.log(res);
-    });
-  }, [category]);
-  if (isLoading) return <>loading...</>;
+
+  if (isLoading || isLoad) return <>loading...</>;
 
   return (
     <div className="reviews-container">
@@ -75,25 +115,38 @@ const [selectedOption, setSelectedOption] = useState("");
           }}
         />
       </div>
-      <div className="reviews-categories-nav">
-        <Categories />
-      </div>
+
       <div className="reset-review-btn">
         <button
+          type="reset"
           onClick={() => {
+            setCategoryValue("");
+            setSortByValue("");
             navigate("/reviews");
           }}
         >
           reset options
         </button>
-        <div className="sort-by-drop-down">
-          {console.log(orderUrl)}
+        <div className="reviews-categories-nav">
           <Select
+            value={!category ? categoryValue : { label: category }}
+            placeholder="Filter by..."
             className="dropbtn"
-            defaultValue={sort_by ? { label: sort_by } : { label: "sort by" }}
+            defaultValue={selectedOption}
+            onChange={onChangeCat}
+            options={categoryData}
+            getOptionValue={(selectedOption) => selectedOption.label}
+          />
+          {isLoading ? <h3>loading...</h3> : <Link to={categoryUrl}></Link>}
+        </div>
+        <div className="sort-by-drop-down">
+          <Select
+            value={!sort_by ? sortByValue : { label: sort_by }}
+            placeholder="sort by"
+            className="dropbtn"
             onChange={onChange}
             options={sortData}
-            getOptionValue={(selectedOption) => selectedOption.label}
+            getOptionValue={(selectedOption) => selectedOption || null}
           />
         </div>
         <button
@@ -112,7 +165,39 @@ const [selectedOption, setSelectedOption] = useState("");
         <></>
       )}
       {sort_by ? (
-        <ReviewsFiltered sort_by={sort_by} order={order_by} />
+        <div className="review-card">
+          {reviewData.map((review) => {
+            return (
+              <div
+                className="item"
+                key={review.review_id}
+                onClick={() => {
+                  navigate(`/reviews/${review.review_id}`);
+                }}
+              >
+                <img
+                  className="review_img"
+                  src={review.review_img_url}
+                  alt="review img"
+                />
+                <div className="words">
+                  <p>
+                    <strong>Category:</strong> {review.category}
+                  </p>
+                  <p>
+                    <strong>Title:</strong> {review.title}
+                  </p>
+                  <p>
+                    <strong>Designer:</strong> {review.designer}
+                  </p>
+                  <p>
+                    <strong>Owner:</strong> {review.owner}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       ) : (
         <div className="review-card">
           {reviewData.map((review) => {

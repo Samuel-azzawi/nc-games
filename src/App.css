@@ -22,20 +22,20 @@ body {
   justify-self: left;
 }
 /* reviews_page */
-.sort-by-drop-down{
-  position: absolute;;
+.sort-by-drop-down {
+  position: absolute;
   bottom: 15%;
- right: 120%;
+  right: 120%;
 }
 .reviews-container {
   display: flex;
 }
 .reviews-categories-nav {
-  position: absolute;;
-  justify-self: center;
-  top: 10%;
-  left: 40%;
+  position: absolute;
+  bottom: 100%;
+  right: 120%;
 }
+
 .home-btn {
   position: absolute;
   top: 20px;
