@@ -110,18 +110,14 @@ const Reviews = () => {
 
   return (
     <div className="reviews-container">
-      <div className="home-btn">
-        <button
-          className="fa fa-home"
-          id="homePage"
-          onClick={() => {
-            HomePage();
-          }}
-        />
-      </div>
-
-      <div>
-        <div className="reset-review-btn">
+      <header>
+          <button
+            className="fa fa-home"
+            id="homePage"
+            onClick={() => {
+              HomePage();
+            }}
+          />
           <button
             type="reset"
             onClick={() => {
@@ -133,9 +129,7 @@ const Reviews = () => {
           >
             reset options
           </button>
-        </div>
         <div className="navAndSortGrid">
-          <div className="reviews-categories-nav">
             <Select
               value={!category ? categoryValue : { label: category }}
               placeholder="Filter by..."
@@ -146,8 +140,7 @@ const Reviews = () => {
               getOptionValue={(selectedOption) => selectedOption.label}
             />
             {isLoading ? <h3>loading...</h3> : <Link to={categoryUrl}></Link>}
-          </div>
-          <div className="sort-by-drop-down">
+
             <Select
               value={!sort_by ? sortByValue : { label: sort_by }}
               placeholder="sort by"
@@ -156,8 +149,7 @@ const Reviews = () => {
               options={sortByOptions}
               getOptionValue={(selectedOption) => selectedOption || null}
             />
-          </div>
-          <div className="sortbtn">
+
             {asc ? (
               <button
                 className="fa fa-arrow-up"
@@ -173,85 +165,87 @@ const Reviews = () => {
                 }}
               />
             )}
+
+        </div>
+        {user ? (
+          <div className="user_reviews">
+            <img className="avatar" src={user.avatar_url} alt="avatar" />
           </div>
-        </div>
-      </div>
-      {user ? (
-        <div className="user_reviews">
-          <img className="avatar" src={user.avatar_url} alt="avatar" />
-        </div>
-      ) : (
-        <></>
-      )}
-      {sort_by ? (
-        <div className="review-card">
-          {reviewData.map((review) => {
-            return (
-              <div
-                className="item"
-                key={review.review_id}
-                onClick={() => {
-                  navigate(`/reviews/${review.review_id}`);
-                }}
-              >
-                <img
-                  className="review_img"
-                  src={review.review_img_url}
-                  alt="review img"
-                />
-                <div className="words">
-                  <p>
-                    <strong>Category:</strong> {review.category}
-                  </p>
-                  <p>
-                    <strong>Title:</strong> {review.title}
-                  </p>
-                  <p>
-                    <strong>Designer:</strong> {review.designer}
-                  </p>
-                  <p>
-                    <strong>Owner:</strong> {review.owner}
-                  </p>
+        ) : (
+          <></>
+        )}
+      </header>
+      <main>
+        {sort_by ? (
+          <div className="review-card">
+            {reviewData.map((review) => {
+              return (
+                <div
+                  className="item"
+                  key={review.review_id}
+                  onClick={() => {
+                    navigate(`/reviews/${review.review_id}`);
+                  }}
+                >
+                  <img
+                    className="review_img"
+                    src={review.review_img_url}
+                    alt="review img"
+                  />
+                  <div className="words">
+                    <p>
+                      <strong>Category:</strong> {review.category}
+                    </p>
+                    <p>
+                      <strong>Title:</strong> {review.title}
+                    </p>
+                    <p>
+                      <strong>Designer:</strong> {review.designer}
+                    </p>
+                    <p>
+                      <strong>Owner:</strong> {review.owner}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="review-card">
-          {reviewData.map((review) => {
-            return (
-              <div
-                className="item"
-                key={review.review_id}
-                onClick={() => {
-                  navigate(`/reviews/${review.review_id}`);
-                }}
-              >
-                <img
-                  className="review_img"
-                  src={review.review_img_url}
-                  alt="review img"
-                />
-                <div className="words">
-                  <p>
-                    <strong>Category:</strong> {review.category}
-                  </p>
-                  <p>
-                    <strong>Title:</strong> {review.title}
-                  </p>
-                  <p>
-                    <strong>Designer:</strong> {review.designer}
-                  </p>
-                  <p>
-                    <strong>Owner:</strong> {review.owner}
-                  </p>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="review-card">
+            {reviewData.map((review) => {
+              return (
+                <div
+                  className="item"
+                  key={review.review_id}
+                  onClick={() => {
+                    navigate(`/reviews/${review.review_id}`);
+                  }}
+                >
+                  <img
+                    className="review_img"
+                    src={review.review_img_url}
+                    alt="review img"
+                  />
+                  <div className="words">
+                    <p>
+                      <strong>Category:</strong> {review.category}
+                    </p>
+                    <p>
+                      <strong>Title:</strong> {review.title}
+                    </p>
+                    <p>
+                      <strong>Designer:</strong> {review.designer}
+                    </p>
+                    <p>
+                      <strong>Owner:</strong> {review.owner}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </main>
     </div>
   );
 };

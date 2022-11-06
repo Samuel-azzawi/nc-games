@@ -66,7 +66,7 @@ const ReviewDetails = () => {
       )}
       <div key={review.review_id}>
         <img
-          className="review_img"
+          className="review_detalis_img"
           src={review.review_img_url}
           alt="review img"
         />
