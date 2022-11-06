@@ -4,8 +4,9 @@ import ApiRequests from "./ApiRequests";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Select from "react-select";
 
+
 const Reviews = () => {
-  const sortData = [
+  const sortByOptions = [
     { label: "votes" },
     { label: "time created" },
     { label: "designer" },
@@ -33,6 +34,7 @@ const Reviews = () => {
     navigate("/");
   };
   const onChange = (e) => {
+    setAsc(false);
     setSortByValue(e);
     if (category) {
       const baseUrl = "/reviews?";
@@ -93,6 +95,8 @@ const Reviews = () => {
     });
   }, []);
   const onChangeCat = (e) => {
+    setAsc(false);
+    setSortByValue("");
     setCategoryValue(e);
     const baseUrl = "/reviews?category=";
     setCategoryUrl(() => {
@@ -116,46 +120,61 @@ const Reviews = () => {
         />
       </div>
 
-      <div className="reset-review-btn">
-        <button
-          type="reset"
-          onClick={() => {
-            setCategoryValue("");
-            setSortByValue("");
-            navigate("/reviews");
-          }}
-        >
-          reset options
-        </button>
-        <div className="reviews-categories-nav">
-          <Select
-            value={!category ? categoryValue : { label: category }}
-            placeholder="Filter by..."
-            className="dropbtn"
-            defaultValue={selectedOption}
-            onChange={onChangeCat}
-            options={categoryData}
-            getOptionValue={(selectedOption) => selectedOption.label}
-          />
-          {isLoading ? <h3>loading...</h3> : <Link to={categoryUrl}></Link>}
+      <div>
+        <div className="reset-review-btn">
+          <button
+            type="reset"
+            onClick={() => {
+              setAsc(false);
+              setCategoryValue("");
+              setSortByValue("");
+              navigate("/reviews");
+            }}
+          >
+            reset options
+          </button>
         </div>
-        <div className="sort-by-drop-down">
-          <Select
-            value={!sort_by ? sortByValue : { label: sort_by }}
-            placeholder="sort by"
-            className="dropbtn"
-            onChange={onChange}
-            options={sortData}
-            getOptionValue={(selectedOption) => selectedOption || null}
-          />
+        <div className="navAndSortGrid">
+          <div className="reviews-categories-nav">
+            <Select
+              value={!category ? categoryValue : { label: category }}
+              placeholder="Filter by..."
+              className="dropbtn"
+              defaultValue={selectedOption}
+              onChange={onChangeCat}
+              options={categoryData}
+              getOptionValue={(selectedOption) => selectedOption.label}
+            />
+            {isLoading ? <h3>loading...</h3> : <Link to={categoryUrl}></Link>}
+          </div>
+          <div className="sort-by-drop-down">
+            <Select
+              value={!sort_by ? sortByValue : { label: sort_by }}
+              placeholder="sort by"
+              className="dropbtn"
+              onChange={onChange}
+              options={sortByOptions}
+              getOptionValue={(selectedOption) => selectedOption || null}
+            />
+          </div>
+          <div className="sortbtn">
+            {asc ? (
+              <button
+                className="fa fa-arrow-up"
+                onClick={() => {
+                  order();
+                }}
+              />
+            ) : (
+              <button
+                className="fa fa-arrow-down"
+                onClick={() => {
+                  order();
+                }}
+              />
+            )}
+          </div>
         </div>
-        <button
-          onClick={() => {
-            order();
-          }}
-        >
-          sort
-        </button>
       </div>
       {user ? (
         <div className="user_reviews">

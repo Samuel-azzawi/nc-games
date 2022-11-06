@@ -35,7 +35,7 @@ const ReviewDetails = () => {
   if (isLoading) return <>loading...</>;
   return (
     <div>
-      <div className="reset-review-btn">
+      <div className=" viewAllReviews">
         <button
           id="homePage"
           onClick={() => {

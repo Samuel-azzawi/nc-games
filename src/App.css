@@ -24,22 +24,30 @@ body {
 /* reviews_page */
 .sort-by-drop-down {
   position: absolute;
-  bottom: 15%;
-  right: 120%;
+  top: 9%;
+  right: 45%;
+}
+.navAndSortGrid{
+}
+.sortbtn{
+  position:absolute;
+  top: 9%;
+  right: 33%;
+
 }
 .reviews-container {
   display: flex;
 }
 .reviews-categories-nav {
   position: absolute;
-  bottom: 100%;
-  right: 120%;
+  top: 3%;
+  right: 45%;
 }
 
 .home-btn {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 1%;
+  left: 1%;
 }
 .userLogin {
   grid-column: 3;
@@ -48,8 +56,8 @@ body {
 }
 .reset-review-btn {
   position: absolute;
-  top: 90px;
-  right: 20px;
+  top: 9%;
+  right: 2%;
 }
 .review-card {
   margin-top: 130px;
@@ -78,10 +86,15 @@ body {
   transition: all 0.8s ease-in-out;
 }
 .review_img {
-  width: 100%;
+position:relative;
+  width: 80%;
   border-radius: 20px;
-  height: 50%;
-  object-fit: cover;
+  right: -20%;
+  
+}
+.viewAllReviews{
+  position: absolute;
+  top: 10%;
 }
 .user_reviews {
   position: absolute;

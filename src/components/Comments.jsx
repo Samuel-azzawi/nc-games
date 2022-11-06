@@ -7,15 +7,16 @@ const Comments = ({ id }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [sendComment, setSendComment] = useState(false);
-  const [fakeComment, setFakeComment] = useState("");
+  const [newComment, setNewComment] = useState("");
   const [information, setInformation] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
   const handleComment = () => {
     if (!user) {
-      return setInformation(true)
+      return setInformation(true);
     }
-    setFakeComment(inputValue);
-    setSendComment(true);
-    ApiRequests.PostComments(id, user.username, inputValue).then(() => {
+    ApiRequests.PostComments(id, user.username, inputValue).then((res) => {
+      setSendComment(true);
+      setNewComment(res.data.comment);
       setInputValue("");
     });
   };
@@ -25,6 +26,14 @@ const Comments = ({ id }) => {
       setIsLoading(false);
     });
   }, [id]);
+  const deleteCommentbtn = (id) => {
+    ApiRequests.deleteComment(id).then(() => {
+      setDisabledButton(false)
+      setComments(comments.filter((comment) => { return comment.comment_id !== id }))
+      setSendComment(false)
+    })
+  }
+
   if (isLoading) return <>loading...</>;
   return (
     <>
@@ -41,21 +50,31 @@ const Comments = ({ id }) => {
       <button onClick={handleComment}>submit</button>
       {information ? <>sign in to write a comment!</> : <></>}
       {sendComment ? (
-        <div className="item">
-          <ul>
-            <li>
-              <strong>author: </strong> {user.username}
-            </li>
-            <li>
-              <strong>votes: </strong>0
-            </li>
-            <li>
-              <strong>created at: </strong> {Date.now()}
-            </li>
-            <br />
-            <li>{fakeComment}</li>
-          </ul>
-        </div>
+        <>
+          <div className="item">
+            <ul>
+              <li>
+                <strong>author: </strong> {newComment.author}
+              </li>
+              <li>
+                <strong>votes: </strong>0
+              </li>
+              <li>
+                <strong>created at: </strong> {newComment.created_at}
+              </li>
+              <br />
+              <li>{newComment.body}</li>
+            </ul>
+          </div>
+          <button disabled={disabledButton}
+            onClick={() => {
+              setDisabledButton(true)
+              deleteCommentbtn(newComment.comment_id);
+            }}
+          >
+            Delete comment
+          </button>
+        </>
       ) : (
         <></>
       )}
@@ -64,21 +83,35 @@ const Comments = ({ id }) => {
       ) : (
         comments.map((comment) => {
           return (
-            <div key={comment.comment_id} className="item">
-              <ul>
-                <li>
-                  <strong>author: </strong> {comment.author}
-                </li>
-                <li>
-                  <strong>votes: </strong>
-                  {comment.votes}
-                </li>
-                <li>
-                  <strong>created at: </strong> {comment.created_at}
-                </li>
-                <br />
-                <li>{comment.body}</li>
-              </ul>
+            <div key={comment.comment_id}>
+              <div className="item">
+                <ul>
+                  <li>
+                    <strong>author: </strong> {comment.author}
+                  </li>
+                  <li>
+                    <strong>votes: </strong>
+                    {comment.votes}
+                  </li>
+                  <li>
+                    <strong>created at: </strong> {comment.created_at}
+                  </li>
+                  <br />
+                  <li>{comment.body}</li>
+                </ul>
+              </div>
+              {comment.author === user.username ? (
+                <button disabled={disabledButton}
+                  onClick={() => {
+                    setDisabledButton(true)
+                    deleteCommentbtn(comment.comment_id);
+                  }}
+                >
+                  Delete comment
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
           );
         })
